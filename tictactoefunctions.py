@@ -5,7 +5,7 @@ from grid import the_grid
 def is_grid_full():
     for sublist in the_grid:
         for small_element in sublist:
-            if small_element == 'Empty':
+            if small_element == '_':
                 return False
     return True
 
@@ -89,12 +89,16 @@ def has_o_won():
 
     return False
 
-# Reset the grid function - CHECK IF THIS WORKS
+# Reset the grid function - delete (cannot use this function for global variable)
 
 def reset_the_grid():
     # Set the grid back to empty
-    the_grid = [
-        ['Empty', 'Empty', 'Empty'],
-        ['Empty', 'Empty', 'Empty'],
-        ['Empty', 'Empty', 'Empty']
-    ]
+    # the_grid = [
+    #     ['Empty', 'Empty', 'Empty'],
+    #     ['Empty', 'Empty', 'Empty'],
+    #     ['Empty', 'Empty', 'Empty']
+    # ]
+    for row in the_grid:
+        for the_small in row:
+            the_small = '_'
+
