@@ -2,26 +2,12 @@
 
 from grid import the_grid
 from grid import print_the_grid
-from tictactoefunctions import has_x_won, has_o_won, is_grid_full
+from tictactoefunctions import has_x_won, has_o_won, is_grid_full, reset_the_grid
 
-# TODO: error handling, scoreboard, do you want to play another game, reset grid
+# TODO: do you want to play another game, reset grid
 
-# FIX ISSUE: the first while loop does not break after end
-
-# except ValueError:
-    #     the_list = input("You did not enter your input in the correct format. Try again: ")
-
-    # # check that the user input was correct - first part now redundant
-    # if type(first_element) != int or type(second_element) != int:
-    #     raise ValueError("You did not enter your input in the correct format.")
-
-    # if first_element < 0 or first_element > 3 or second_element < 0 or second_element > 3:
-    #     raise ValueError("Your numbers are out of bounds.")
-
-# Print welcome message with scoring system
-
-# NOTE: set up scoring system ; add do you want to play again button at end - when full or if there is a win
-# reset the grid function
+# Print welcome message
+print("Welcome to Tic-Tac-Toe!")
 
 playeronescore = 0
 playertwoscore = 0
@@ -34,6 +20,8 @@ while continue_game:
 
     not_done_one = True
 
+    not_done_two = True
+
     while not_done_one:
 
         # Ask Player 1 where they want it to be
@@ -41,12 +29,28 @@ while continue_game:
 
         # CATCH ERRORS - number out of bound, or not a number at all
 
-        # first element and second element
-        first_element = int(the_list[1])
-        second_element = int(the_list[3])
+        # first element and second element - this goes in the try for error handling
+
+        the_error = True
+
+        while the_error:
+            try:
+                first_element = int(the_list[1])
+                second_element = int(the_list[3])
+                if first_element > 2 or first_element < 0 or second_element > 2 or second_element < 0:
+                    raise ValueError
+            except ValueError:
+                the_error = True
+                the_list = input("You did not use the correct format or your numbers are out of bounds. Try again: ")
+            except Exception:
+                the_error = True
+                the_list = input("Unexpected error. Try again: ")
+            else:
+                the_error = False
+
 
         # Check to see if space is already filled up
-        if the_grid[first_element][second_element] == 'Empty':
+        if the_grid[first_element][second_element] == '_':
 
             # Fill Out the appropriate square on the grid
             the_grid[int(first_element)][int(second_element)] = 'X'
@@ -55,7 +59,9 @@ while continue_game:
             win_no = has_x_won()
             if win_no:
                 print("Congratulations Player 1!")
+                playeronescore += 1
                 print_the_grid()
+                not_done_two = False
                 break
 
             # CHECK FOR FILLED UP - define separate function
@@ -63,6 +69,7 @@ while continue_game:
             if is_grid_filled:
                 print("Game Over.")
                 print_the_grid()
+                not_done_two = False
                 break
 
             print_the_grid()
@@ -72,9 +79,12 @@ while continue_game:
             print("This space is occupied. Pick another space.")
             # continue
 
-    # PLAYER 2 CODE
+    if not_done_two == False:
+        break
 
-    not_done_two = True # move to top, and change to false in above code, if game done - same for player 1
+    not_done_one = True
+
+    # PLAYER 2 CODE
 
     while not_done_two:
 
@@ -83,11 +93,28 @@ while continue_game:
 
         # first element and second element
 
-        first_element = int(the_list[1])
-        second_element = int(the_list[3])
+        # first element and second element - this goes in the try for error handling
+
+        the_error = True
+
+        while the_error:
+            try:
+                first_element = int(the_list[1])
+                second_element = int(the_list[3])
+                if first_element > 2 or first_element < 0 or second_element > 2 or second_element < 0:
+                    raise ValueError
+            except ValueError:
+                the_error = True
+                the_list = input(
+                    "You did not use the correct format or your numbers are out of bounds. Please try inputting again: ")
+            except Exception:
+                the_error = True
+                the_list = input("Unexpected error. Try again: ")
+            else:
+                the_error = False
 
         # Check to see if space is already filled up
-        if the_grid[first_element][second_element] == 'Empty':
+        if the_grid[first_element][second_element] == '_':
 
             # Fill Out the appropriate square on the grid
             the_grid[int(first_element)][int(second_element)] = 'O'
@@ -96,7 +123,9 @@ while continue_game:
             win_no = has_o_won()
             if win_no:
                 print("Congratulations Player 2!")
+                playertwoscore += 1
                 print_the_grid()
+                not_done_one = False
                 # ASK IF YOU WANT TO PLAY ANOTHER GAME
                 break
 
@@ -105,6 +134,7 @@ while continue_game:
             if is_grid_filled:
                 print("Game Over.")
                 print_the_grid()
+                not_done_one = False
                 break
 
             print_the_grid()
@@ -114,7 +144,17 @@ while continue_game:
             print("This space is occupied. Pick another space.")
             # continue
 
+    if not_done_one == False:
+        break
 
+    # not_done_two == True
 
+# AFTER GAME IS DONE - PRINT OUT FINAL SCORE
+
+print("\nPlayer 1 Final Score: " + str(playeronescore))
+print("Player 2 Final Score: " + str(playertwoscore))
+
+reset_the_grid() # doesn't work
+print_the_grid()
 
 

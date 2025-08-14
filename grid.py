@@ -5,9 +5,9 @@ import pandas
 # Build 2-D Grid Python
 
 the_grid = [
-     ['Empty', 'Empty', 'Empty'],
-     ['Empty', 'Empty', 'Empty'],
-     ['Empty', 'Empty', 'Empty']
+     ['_', '_', '_'],
+     ['_', '_', '_'],
+     ['_', '_', '_']
  ]
 
 # Define print grid function
