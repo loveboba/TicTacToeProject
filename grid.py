@@ -16,6 +16,10 @@ def print_the_grid():
     for therow in the_grid:
         print(therow)
 
+# Define reset the grid function
+
+# NOTE - this function doesn't work because of local var
+
 
 # new_grid = pandas.Dataframe({
 #     'FirstCol': ['.', '.', '.'],

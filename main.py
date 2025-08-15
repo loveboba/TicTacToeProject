@@ -2,7 +2,7 @@
 
 from grid import the_grid
 from grid import print_the_grid
-from tictactoefunctions import has_x_won, has_o_won, is_grid_full, reset_the_grid
+from tictactoefunctions import has_x_won, has_o_won, is_grid_full
 
 # TODO: do you want to play another game, reset grid
 
@@ -54,6 +54,7 @@ while continue_game:
 
             # Fill Out the appropriate square on the grid
             the_grid[int(first_element)][int(second_element)] = 'X'
+            print_the_grid() # ADDED HERE
 
             # CHECK FOR WIN - define separate function
             win_no = has_x_won()
@@ -62,7 +63,36 @@ while continue_game:
                 playeronescore += 1
                 print_the_grid()
                 not_done_two = False
-                break
+                # break
+
+                # WOULD YOU LIKE TO PLAY AGAIN - same thing but with reset grid and NO break statement
+                # add error catch here - maybe no need
+
+                ask_the_user = input("Play again? Type 'Y' or 'N': ")
+
+                if ask_the_user == 'Y':
+                    # Reset the grid - no break; if no - break
+                    print("Came in here")
+
+                    # for row in the_grid:
+                    #     print("Came in here 1")
+                    #     for the_small in row:
+                    #         the_small = '_'
+
+                    # Reset the grid
+                    # the_list = reset_the_grid()
+                    for i in range(3):
+                        for j in range(3):
+                            the_grid[i][j] = '_'
+
+                    not_done_two = True # change to continue the game
+                else:
+                    print("Came in here 2")
+                    break
+
+
+
+
 
             # CHECK FOR FILLED UP - define separate function
             is_grid_filled = is_grid_full()
@@ -70,9 +100,35 @@ while continue_game:
                 print("Game Over.")
                 print_the_grid()
                 not_done_two = False
-                break
 
-            print_the_grid()
+                # WOULD YOU LIKE TO PLAY AGAIN - same thing but with reset grid and NO break statement
+                # add error catch here - maybe no need
+
+                ask_the_user = input("Play again? Type 'Y' or 'N': ")
+
+                if ask_the_user == 'Y':
+                    # Reset the grid - no break; if no - break
+                    print("Came in here")
+
+                    # for row in the_grid:
+                    #     print("Came in here 1")
+                    #     for the_small in row:
+                    #         the_small = '_'
+
+                    # Reset the grid
+                    # the_list = reset_the_grid()
+                    for i in range(3):
+                        for j in range(3):
+                            the_grid[i][j] = '_'
+
+                    not_done_two = True  # change to continue the game
+                else:
+                    print("Came in here 2")
+                    break
+
+                # break
+
+            # print_the_grid()
             not_done_one = False
 
         else:
@@ -118,6 +174,8 @@ while continue_game:
 
             # Fill Out the appropriate square on the grid
             the_grid[int(first_element)][int(second_element)] = 'O'
+            print_the_grid() # ADDED HERE
+
 
             # CHECK FOR WIN - define separate function
             win_no = has_o_won()
@@ -137,7 +195,7 @@ while continue_game:
                 not_done_one = False
                 break
 
-            print_the_grid()
+            # print_the_grid()
             not_done_two = False
 
         else:
@@ -154,7 +212,7 @@ while continue_game:
 print("\nPlayer 1 Final Score: " + str(playeronescore))
 print("Player 2 Final Score: " + str(playertwoscore))
 
-reset_the_grid() # doesn't work
+# reset_the_grid() # doesn't work
 print_the_grid()
 
 

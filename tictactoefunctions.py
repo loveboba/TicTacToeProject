@@ -89,16 +89,5 @@ def has_o_won():
 
     return False
 
-# Reset the grid function - delete (cannot use this function for global variable)
 
-def reset_the_grid():
-    # Set the grid back to empty
-    # the_grid = [
-    #     ['Empty', 'Empty', 'Empty'],
-    #     ['Empty', 'Empty', 'Empty'],
-    #     ['Empty', 'Empty', 'Empty']
-    # ]
-    for row in the_grid:
-        for the_small in row:
-            the_small = '_'
 
