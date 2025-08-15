@@ -4,8 +4,6 @@ from grid import the_grid
 from grid import print_the_grid
 from tictactoefunctions import has_x_won, has_o_won, is_grid_full
 
-# TODO: do you want to play another game, reset grid
-
 # Print welcome message
 print("Welcome to Tic-Tac-Toe!")
 
@@ -185,7 +183,31 @@ while continue_game:
                 print_the_grid()
                 not_done_one = False
                 # ASK IF YOU WANT TO PLAY ANOTHER GAME
-                break
+                # WOULD YOU LIKE TO PLAY AGAIN - same thing but with reset grid and NO break statement
+                # add error catch here - maybe no need
+
+                ask_the_user = input("Play again? Type 'Y' or 'N': ")
+
+                if ask_the_user == 'Y':
+                    # Reset the grid - no break; if no - break
+                    print("Came in here")
+
+                    # for row in the_grid:
+                    #     print("Came in here 1")
+                    #     for the_small in row:
+                    #         the_small = '_'
+
+                    # Reset the grid
+                    # the_list = reset_the_grid()
+                    for i in range(3):
+                        for j in range(3):
+                            the_grid[i][j] = '_'
+
+                    not_done_one = True  # change to continue the game
+                else:
+                    print("Came in here 2")
+                    break
+                # break
 
             # CHECK FOR FILLED UP - define separate function
             is_grid_filled = is_grid_full()
@@ -193,7 +215,31 @@ while continue_game:
                 print("Game Over.")
                 print_the_grid()
                 not_done_one = False
-                break
+                # WOULD YOU LIKE TO PLAY AGAIN - same thing but with reset grid and NO break statement
+                # add error catch here - maybe no need
+
+                ask_the_user = input("Play again? Type 'Y' or 'N': ")
+
+                if ask_the_user == 'Y':
+                    # Reset the grid - no break; if no - break
+                    print("Came in here")
+
+                    # for row in the_grid:
+                    #     print("Came in here 1")
+                    #     for the_small in row:
+                    #         the_small = '_'
+
+                    # Reset the grid
+                    # the_list = reset_the_grid()
+                    for i in range(3):
+                        for j in range(3):
+                            the_grid[i][j] = '_'
+
+                    not_done_one = True  # change to continue the game
+                else:
+                    print("Came in here 2")
+                    break
+                # break
 
             # print_the_grid()
             not_done_two = False
