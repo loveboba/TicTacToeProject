@@ -253,6 +253,8 @@ while continue_game:
 
     # not_done_two == True
 
+# SET UP PLAYER SYSTEM - ONE PLAYER IS AI
+
 # AFTER GAME IS DONE - PRINT OUT FINAL SCORE
 
 print("\nPlayer 1 Final Score: " + str(playeronescore))
