@@ -1,13 +1,10 @@
 # This is Portfolio Tic-Tac-Toe Project
-
 from grid import the_grid
 from grid import print_the_grid
 from tictactoefunctions import has_x_won, has_o_won, is_grid_full
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os
-
-# TODO: Debug AI part
 
 # Print welcome message
 print("Welcome to Tic-Tac-Toe!")
@@ -49,9 +46,11 @@ if ai_or_no:
     ai_response = chat.send_message(instructions_for_ai)
     print(ai_response.text)
 
-
-playeronescore = 0
-playertwoscore = 0
+# Initialize variables
+first_element = 0
+second_element = 0
+player_one_score = 0
+player_two_score = 0
 
 # Set Up The Player System
 
@@ -63,14 +62,14 @@ while continue_game:
 
     not_done_two = True
 
+    # PLAYER 1 CODE
+
     while not_done_one:
 
-        # Ask Player 1 where they want it to be
+        # Ask Player 1 about their first move
         the_list = input("Player 1: What square do you choose? (Example: [1,1]) \n")
 
-        # CATCH ERRORS - number out of bound, or not a number at all
-
-        # first element and second element - this goes in the try for error handling
+        # Error Handling
 
         the_error = True
 
@@ -89,107 +88,86 @@ while continue_game:
             else:
                 the_error = False
 
-
         # Check to see if space is already filled up
+
         if the_grid[first_element][second_element] == '_':
 
             # Fill Out the appropriate square on the grid
             the_grid[int(first_element)][int(second_element)] = 'X'
-            print_the_grid() # ADDED HERE
 
-            # CHECK FOR WIN - define separate function
+            # Print the grid
+            print("Player 1 move: " + str(the_list))
+            print_the_grid()
+
+            # CHECK FOR WIN
             win_no = has_x_won()
+
+            # If Player 1 has won...
             if win_no:
                 print("Congratulations Player 1!")
-                playeronescore += 1
+                player_one_score += 1
+                print("Final grid: ")
                 print_the_grid()
                 not_done_two = False
-                # break
 
-                # WOULD YOU LIKE TO PLAY AGAIN - same thing but with reset grid and NO break statement
-                # add error catch here - maybe no need
-
+                # Ask the user if they would like to play again
                 ask_the_user = input("Play again? Type 'Y' or 'N': ")
 
+                # If the user wants to play again
                 if ask_the_user == 'Y':
-                    # Reset the grid - no break; if no - break
-                    # print("Came in here")
 
-                    # for row in the_grid:
-                    #     print("Came in here 1")
-                    #     for the_small in row:
-                    #         the_small = '_'
-
-                    # Reset the grid
-                    # the_list = reset_the_grid()
+                    # Reset the Grid
                     for i in range(3):
                         for j in range(3):
                             the_grid[i][j] = '_'
 
-                    not_done_two = True # change to continue the game
+                    # Player 2 makes the first move of the next game
+                    not_done_two = True
 
-                    # TELL THE AI WE ARE PLAYING AGAIN
+                    # If Player 2 is AI - tell AI that we are playing another game.
                     if ai_or_no:
-                        tell_ai = chat.send_message("Player 1 won! We are playing one more game. The grid has been reset.")
-                        print(tell_ai.text)
-                        # get response
+                        tell_ai = chat.send_message("Player 1 won! We are playing one more game. The grid has been "
+                                                    "reset.")
+                        # print(tell_ai.text)
+
+                # If the user does not want to play again
                 else:
-                    # print("Came in here 2")
                     break
 
-
-
-
-
-            # CHECK FOR FILLED UP - define separate function
+            # CHECK IF THE GRID HAS FILLED UP
             is_grid_filled = is_grid_full()
+
+            # If the grid is filled up
             if is_grid_filled:
                 print("Game Over.")
+                print("Final grid: ")
                 print_the_grid()
                 not_done_two = False
 
-                # WOULD YOU LIKE TO PLAY AGAIN - same thing but with reset grid and NO break statement
-                # add error catch here - maybe no need
-
+                # Ask the user if they would like to play again
                 ask_the_user = input("Play again? Type 'Y' or 'N': ")
 
+                # User wants to play again:
                 if ask_the_user == 'Y':
-                    # Reset the grid - no break; if no - break
-                    # print("Came in here")
-
-                    # for row in the_grid:
-                    #     print("Came in here 1")
-                    #     for the_small in row:
-                    #         the_small = '_'
-
-                    # Reset the grid
-                    # the_list = reset_the_grid()
                     for i in range(3):
                         for j in range(3):
                             the_grid[i][j] = '_'
+                    not_done_two = True
 
-                    not_done_two = True  # change to continue the game
-
-                    # TELL THE AI WE ARE PLAYING AGAIN
+                    # If Player 2 is AI - tell them we are playing another game.
                     if ai_or_no:
-                        tell_ai = chat.send_message("The game resulted in a tie. We are playing one more game. The grid "
-                                                "has been reset.")
+                        tell_ai = chat.send_message("The game resulted in a tie. We are playing one more game. The "
+                                                    "grid has been reset.")
                         print(tell_ai.text)
-                        # get response
                 else:
-                    # print("Came in here 2")
                     break
 
-                # break
-
-            # print_the_grid()
+            # No longer Player 1's turn
             not_done_one = False
-
         else:
             print("This space is occupied. Pick another space.")
-            # continue
 
-    if not_done_two == False:
+    if not not_done_two:
         break
 
     not_done_one = True
@@ -198,7 +176,9 @@ while continue_game:
 
     while not_done_two:
 
-        # Ask Player 2 where they want it to be - AI or human player
+        # Ask Player 2 about where they want their move - AI or human player
+
+        # AI Player
         if ai_or_no:
             get_move = chat.send_message("What square do you choose? (An example of your output format is [1,"
                                          "1]). Choose only one square, then wait for the other player's move. If the "
@@ -206,20 +186,12 @@ while continue_game:
                                          "Here is"
                                          "the current grid: " + str(the_grid))
             print(get_move.text)
-            print("CAME HERE! - 1")
             the_list = get_move.text
-            print(the_list)
-            print("CAME HERE! - 3")
-
+        # Human Player
         else:
             the_list = input("Player 2: What square do you choose? (Example: [1,1]) \n")
 
-        # first element and second element
-
-        # first element and second element - this goes in the try for error handling
-
-        print("CAME HERE! - 4")
-
+        # Error Handling
         the_error = True
 
         while the_error:
@@ -255,94 +227,66 @@ while continue_game:
 
             # Fill Out the appropriate square on the grid
             the_grid[int(first_element)][int(second_element)] = 'O'
-            print("CAME HERE! -2")
-            print_the_grid() # ADDED HERE
+            print("Player 2 move: " + str(the_list))
+            print_the_grid()
 
-            # CHECK FOR WIN - define separate function
+            # CHECK FOR WIN
             win_no = has_o_won()
+
             if win_no:
-                playertwoscore += 1
+                player_two_score += 1
+                print("Final grid: ")
                 print_the_grid()
                 not_done_one = False
-                # if AI - tell the AI it won
+
+                # If the Player is AI - tell the AI it won
                 if ai_or_no:
                     print("Player 2 has won!")
                     final = chat.send_message("Congratulations Player 2! Print a message of victory!")
                     print(final.text)
-                    # break
+                # If the Player is human
                 else:
                     print("Congratulations Player 2!")
 
-                # ASK IF YOU WANT TO PLAY ANOTHER GAME
-                # WOULD YOU LIKE TO PLAY AGAIN - same thing but with reset grid and NO break statement
-                # add error catch here - maybe no need
-
-                # if not ai_or_no:
+                # Ask the user if they would like to play again
                 ask_the_user = input("Play again? Type 'Y' or 'N': ")
 
                 if ask_the_user == 'Y':
-                        # Reset the grid - no break; if no - break
-                        # print("Came in here")
-
-                        # for row in the_grid:
-                        #     print("Came in here 1")
-                        #     for the_small in row:
-                        #         the_small = '_'
-
-                        # Reset the grid
-                        # the_list = reset_the_grid()
                     for i in range(3):
                         for j in range(3):
                             the_grid[i][j] = '_'
-
-                    not_done_one = True  # change to continue the game
+                    not_done_one = True
                 else:
-                        # print("Came in here 2")
                     break
-                    # break
 
-            # CHECK FOR FILLED UP - define separate function
+            # Check if the grid is filled up
             is_grid_filled = is_grid_full()
+
             if is_grid_filled:
-                # Tell AI - game over
-                # if AI - tell the AI game over
+                # Tell AI
                 if ai_or_no:
                     print("Game Over.")
                     final = chat.send_message("The game is over - it is a tie.")
                     print(final.text)
-                    break
+                # Tell the user
                 else:
                     print("Game Over.")
+
+                print("Final grid: ")
                 print_the_grid()
                 not_done_one = False
-                # WOULD YOU LIKE TO PLAY AGAIN - same thing but with reset grid and NO break statement
-                # add error catch here - maybe no need
 
-                # if not ai_or_no:
+                # Ask the user if they would like to play again
                 ask_the_user = input("Play again? Type 'Y' or 'N': ")
 
                 if ask_the_user == 'Y':
-                        # Reset the grid - no break; if no - break
-                        # print("Came in here")
-
-                        #   for row in the_grid:
-                        #     print("Came in here 1")
-                        #     for the_small in row:
-                        #         the_small = '_'
-
-                        # Reset the grid
-                        # the_list = reset_the_grid()
                     for i in range(3):
                         for j in range(3):
                             the_grid[i][j] = '_'
-
-                    not_done_one = True  # change to continue the game
+                    not_done_one = True
                 else:
-                        # print("Came in here 2")
                      break
-                    # break
 
-            # print_the_grid()
             not_done_two = False
 
         else:
@@ -357,16 +301,11 @@ while continue_game:
     if not_done_one == False:
         break
 
-    # not_done_two == True
-
-# SET UP PLAYER SYSTEM - ONE PLAYER IS AI
-
 # AFTER GAME IS DONE - PRINT OUT FINAL SCORE
 
-print("\nPlayer 1 Final Score: " + str(playeronescore))
-print("Player 2 Final Score: " + str(playertwoscore))
+print("\nPlayer 1 Final Score: " + str(player_one_score))
+print("Player 2 Final Score: " + str(player_two_score))
 
-# reset_the_grid() # doesn't work
-print_the_grid()
+
 
 
